@@ -5,6 +5,8 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using WH.Domain;
+using WH.Domain.Interfaces;
 
 namespace WH
 {
@@ -13,7 +15,8 @@ namespace WH
         public static IContainer Configure()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<IApplication>().As<Application>();
+            builder.RegisterType<Application>().As<IApplication>();
+            builder.RegisterType<DataImporter>().As<IDataImporter>();
             return builder.Build();
         }
     }

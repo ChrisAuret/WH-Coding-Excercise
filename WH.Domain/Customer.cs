@@ -29,5 +29,22 @@ namespace WH.Domain
         /// Customers Unsettled bets
         /// </summary>
         public List<Bet> Unsettled { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as Customer;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return Id.Equals(item.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
     }
 }

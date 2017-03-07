@@ -16,6 +16,8 @@ namespace WH.Domain
 
             foreach (var file in files)
             {
+                var isSettledFile = file.ToLower().StartsWith("s");
+                
                 using (var fs = File.OpenRead(file))
                 using (var reader = new StreamReader(fs))
                 {
@@ -25,19 +27,35 @@ namespace WH.Domain
                         if (line == null) continue;
                         var values = line.Split(',');
 
-                        var customer = new Customer { Id = int.Parse(values[0]) };
+                        var customerId = int.Parse(values[0]);
 
                         var bet = new Bet()
                         {
-                            CustomerId = int.Parse(values[0]),
+                            CustomerId = customerId,
                             EventId = int.Parse(values[1]),
                             ParticipantId = int.Parse(values[2]),
                             Stake = int.Parse(values[3]),
                             BetAmount = int.Parse(values[4])
                         };
 
-                        var unsettled = new List<Bet>();
-                        var settled = new List<Bet>();
+                        var customer = new Customer
+                        {
+                            Id = customerId
+                        };
+
+                        if (isSettledFile)
+                        {
+                            customer.Settled.Add(bet);
+                        }
+                        else
+                        {
+                            customer.Unsettled.Add(bet);
+                        }
+
+                        if (!customers.Contains(customer))
+                        {
+                            customers.Add(customer);
+                        }
                     }
                 }
             }
