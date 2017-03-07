@@ -15,48 +15,10 @@ namespace WH.Tests
         private readonly IRiskInspector _processor = new RiskInspector();
 
         [Test]
-        public void Should_identify_high_winning_customers_greater_than_60()
+        public void Should_identify_customers_winning_more_than_60_percent_of_settled_bets()
         {
             // Arrange          
-            var testCustomers = new List<Customer>();
-
-            // Win
-            var settledBet1 = new Bet()
-            {
-                CustomerId = 1,
-                EventId = 1,
-                ParticipantId = 1,
-                Stake = 1,
-                BetAmount = 5 
-            };
-
-            // Win
-            var settledBet2 = new Bet
-            {
-                CustomerId = 1,
-                EventId = 1,
-                ParticipantId = 1,
-                Stake = 1,
-                BetAmount = 5
-            };
-
-            // Lose
-            var settledBet3 = new Bet
-            {
-                CustomerId = 1,
-                EventId = 1,
-                ParticipantId = 1,
-                Stake = 1,
-                BetAmount = 0
-            };
-
-            var settledBets = new List<Bet> { settledBet1, settledBet2, settledBet3 };
-
-            testCustomers.Add(new Customer
-            {
-                Id = 1,
-                Settled = settledBets
-            });
+            var testCustomers = TestData.CustomersThatWinMoreThan60PercentOfBets();
 
             // Act
             var actualCustomers = _processor.CustomersWithUnusualWinRate(testCustomers);
@@ -64,6 +26,20 @@ namespace WH.Tests
             // Assert
             Assert.IsTrue(actualCustomers.Count == 1);
             Assert.IsTrue(actualCustomers[0].Id == 1);
+        }
+
+        [Test]
+        public void Should_identify_Bets_With_High_Amounts_To_Win()
+        {
+            // Arrange            
+            var testCustomers = TestData.CustomersWithHighBets();
+
+            // Act
+            var highBets = _processor.CustomersWithHighBets(testCustomers);
+
+            // Assert
+            Assert.IsTrue(highBets.Count == 1);
+            Assert.IsTrue(highBets[0].BetAmount == 2000);
         }
     }
 }

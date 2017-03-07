@@ -23,6 +23,7 @@ namespace WH
             var customers = _dataImporter.Import(new[] { "Settled.csv", "Unsettled.csv" });
 
             var customersWithHighWinRate = _riskInspector.CustomersWithUnusualWinRate(customers);
+            var customersWithHighBets = _riskInspector.CustomersWithHighBets(customers);
         }
     }
 }

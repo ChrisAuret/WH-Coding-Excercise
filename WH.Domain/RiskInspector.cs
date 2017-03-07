@@ -27,5 +27,23 @@ namespace WH.Domain
 
             return unusualCustomers;
         }
+
+        public List<Bet> CustomersWithHighBets(List<Customer> customers)
+        {
+            var highBets = new List<Bet>();
+
+            foreach (var customer in customers)
+            {
+                foreach (var bet in customer.Unsettled)
+                {
+                    if (bet.BetAmount > 1000)
+                    {
+                        highBets.Add(bet);
+                    }
+                }
+            }
+
+            return highBets;
+        }
     }
 }

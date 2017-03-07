@@ -9,5 +9,6 @@ namespace WH.Domain.Interfaces
     public interface IRiskInspector
     {
         List<Customer> CustomersWithUnusualWinRate(List<Customer> customers);
+        List<Bet> CustomersWithHighBets(List<Customer> customers);
     }
 }
