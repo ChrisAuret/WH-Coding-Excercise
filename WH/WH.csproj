@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="ContainerConfig.cs" />
+    <Compile Include="IApplication.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,9 +60,9 @@
     <None Include="Unsettled.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj">
-      <Project>{0a0cfee7-4b53-4c33-abf4-03299de98704}</Project>
-      <Name>Domain</Name>
+    <ProjectReference Include="..\WH.Domain\WH.Domain.csproj">
+      <Project>{bf460af2-d451-462a-a43b-90a03d64827c}</Project>
+      <Name>WH.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
