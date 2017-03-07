@@ -16,7 +16,8 @@ You will need
 
 ## To Run Tests
 
-Double-click "RunTests.bat" from the file explorer
+Double-click "RunTests.bat" from the file explorer, ot
+Run test project inside Visual Studio
 
 ## To Run Console Application
 -   Make sure solution has been built
