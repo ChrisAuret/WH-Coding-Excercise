@@ -11,75 +11,44 @@ namespace WH.Domain
     {
         public List<Customer> CustomersWithUnusualWinRate(List<Customer> customers, int threshold)
         {
-            var unusualCustomers = new List<Customer>();
-
-            foreach (var customer in customers)
-            {
-                var allWins = (double)customer.Settled.Where(x => x.BetAmount > 0).ToList().Count;
-                var allBets = (double)customer.Settled.Count;
-                var betAverage = allWins / allBets * 100.0;
-
-                if (betAverage > threshold)
-                {
-                    unusualCustomers.Add(customer);
-                }
-            }
-
-            return unusualCustomers;
+            return (
+                from customer in customers
+                let allWins = (double)customer.Settled.Where(x => x.BetAmount > 0).ToList().Count
+                let allBets = (double)customer.Settled.Count
+                let betAverage = allWins / allBets * 100.0
+                where betAverage > threshold
+                select customer
+            ).ToList();
         }
 
         public List<Bet> CustomersWithHighBets(List<Customer> customers, int threshold)
         {
-            var highBets = new List<Bet>();
-
-            foreach (var customer in customers)
-            {
-                foreach (var bet in customer.Unsettled)
-                {
-                    if (bet.BetAmount > threshold)
-                    {
-                        highBets.Add(bet);
-                    }
-                }
-            }
-
-            return highBets;
+            return (
+                from customer in customers
+                from bet in customer.Unsettled
+                where bet.BetAmount > threshold
+                select bet
+            ).ToList();
         }
 
         public List<Bet> BetsWithUnusualStakes(List<Customer> customers, int threshold)
         {
-            var bets = new List<Bet>();
-
-            foreach (var customer in customers)
-            {
-                foreach (var bet in customer.Unsettled)
-                {
-                    if (bet.Stake > customer.SettledAverageStake * threshold)
-                    {
-                        bets.Add(bet);
-                    }
-                }
-            }
-
-            return bets;
+            return (
+                from customer in customers
+                from bet in customer.Unsettled
+                where bet.Stake > customer.SettledAverageStake * threshold
+                select bet
+            ).ToList();
         }
 
         public List<Bet> BetsWithVeryUnusualStakes(List<Customer> customers, int threshold)
         {
-            var bets = new List<Bet>();
-
-            foreach (var customer in customers)
-            {
-                foreach (var bet in customer.Unsettled)
-                {
-                    if (bet.Stake > customer.SettledAverageStake * threshold)
-                    {
-                        bets.Add(bet);
-                    }
-                }
-            }
-
-            return bets;
+            return (
+                from customer in customers
+                from bet in customer.Unsettled
+                where bet.Stake > customer.SettledAverageStake * threshold
+                select bet
+            ).ToList();
         }
     }
 }
