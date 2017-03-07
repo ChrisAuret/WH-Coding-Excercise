@@ -9,7 +9,7 @@ namespace WH.Domain
 {
     public class RiskInspector : IRiskInspector
     {
-        public List<Customer> CustomersWithUnusualWinRate(List<Customer> customers)
+        public List<Customer> CustomersWithUnusualWinRate(List<Customer> customers, int threshold)
         {
             var unusualCustomers = new List<Customer>();
 
@@ -19,7 +19,7 @@ namespace WH.Domain
                 var allBets = (double)customer.Settled.Count;
                 var betAverage = allWins / allBets * 100.0;
 
-                if (betAverage > 60)
+                if (betAverage > threshold)
                 {
                     unusualCustomers.Add(customer);
                 }
@@ -28,7 +28,7 @@ namespace WH.Domain
             return unusualCustomers;
         }
 
-        public List<Bet> CustomersWithHighBets(List<Customer> customers)
+        public List<Bet> CustomersWithHighBets(List<Customer> customers, int threshold)
         {
             var highBets = new List<Bet>();
 
@@ -36,7 +36,7 @@ namespace WH.Domain
             {
                 foreach (var bet in customer.Unsettled)
                 {
-                    if (bet.BetAmount > 1000)
+                    if (bet.BetAmount > threshold)
                     {
                         highBets.Add(bet);
                     }
@@ -44,6 +44,42 @@ namespace WH.Domain
             }
 
             return highBets;
+        }
+
+        public List<Bet> BetsWithUnusualStakes(List<Customer> customers, int threshold)
+        {
+            var bets = new List<Bet>();
+
+            foreach (var customer in customers)
+            {
+                foreach (var bet in customer.Unsettled)
+                {
+                    if (bet.Stake > customer.SettledAverageStake * threshold)
+                    {
+                        bets.Add(bet);
+                    }
+                }
+            }
+
+            return bets;
+        }
+
+        public List<Bet> BetsWithVeryUnusualStakes(List<Customer> customers, int threshold)
+        {
+            var bets = new List<Bet>();
+
+            foreach (var customer in customers)
+            {
+                foreach (var bet in customer.Unsettled)
+                {
+                    if (bet.Stake > customer.SettledAverageStake * threshold)
+                    {
+                        bets.Add(bet);
+                    }
+                }
+            }
+
+            return bets;
         }
     }
 }

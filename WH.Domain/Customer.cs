@@ -30,6 +30,16 @@ namespace WH.Domain
         /// </summary>
         public List<Bet> Unsettled { get; set; }
 
+        /// <summary>
+        /// Customers average stake of settled bets
+        /// </summary>
+        public decimal SettledAverageStake => Settled.Sum(x => x.Stake) / Settled.Count;
+
+        /// <summary>
+        /// Customers average stake of unsettled bets
+        /// </summary>
+        public decimal UnsettledAverageStake => Unsettled.Sum(x => x.Stake) / Unsettled.Count;
+
         public override bool Equals(object obj)
         {
             var item = obj as Customer;

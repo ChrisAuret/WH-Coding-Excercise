@@ -11,46 +11,41 @@ namespace WH.Tests
     {
         public static List<Customer> CustomersThatWinMoreThan60PercentOfBets()
         {
-            var testCustomers = new List<Customer>();
-
-            // Win
-            var settledBet1 = new Bet()
+            var testCustomers = new List<Customer>()
             {
-                CustomerId = 1,
-                EventId = 1,
-                ParticipantId = 1,
-                Stake = 1,
-                BetAmount = 5
+                new Customer()
+                {
+                    Id = 1,
+                    // 2 Win, 1 Lose = 66% Winning Bets
+                    Settled = new List<Bet>
+                    {
+                        new Bet()   // Win
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 1,
+                            BetAmount = 5
+                        },
+                        new Bet // Win
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 1,
+                            BetAmount = 5
+                        },
+                        new Bet // Lose
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 1,
+                            BetAmount = 0
+                        }
+                    }
+                }
             };
-
-            // Win
-            var settledBet2 = new Bet
-            {
-                CustomerId = 1,
-                EventId = 1,
-                ParticipantId = 1,
-                Stake = 1,
-                BetAmount = 5
-            };
-
-            // Lose
-            var settledBet3 = new Bet
-            {
-                CustomerId = 1,
-                EventId = 1,
-                ParticipantId = 1,
-                Stake = 1,
-                BetAmount = 0
-            };
-
-            // 2 Win, 1 Lose = 66% Winning Bets
-            var settledBets = new List<Bet> { settledBet1, settledBet2, settledBet3 };
-
-            testCustomers.Add(new Customer
-            {
-                Id = 1,
-                Settled = settledBets
-            });
 
             return testCustomers;
         }
@@ -86,6 +81,111 @@ namespace WH.Tests
             };
 
             customers.Add(customer);
+
+            return customers;
+        }
+
+        public static List<Customer> CustomersWithHighStakes10()
+        {
+            var customers = new List<Customer>
+            {
+                new Customer
+                {
+                    Id = 1,
+                    Settled = new List<Bet>
+                    {
+                        new Bet
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 1,
+                            BetAmount = 3
+                        }
+                    },
+                    Unsettled = new List<Bet>()
+                    {
+                        new Bet
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 11,
+                            BetAmount = 100
+                        },
+                        new Bet
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 10,
+                            BetAmount = 30
+                        },                    
+                        new Bet
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 20,
+                            BetAmount = 200
+                        }
+                    }
+                }
+            };
+
+            return customers;
+        }
+
+        public static List<Customer> CustomersWithHighStakes30()
+        {
+            // Bets where the stake is more than 30 times higher than that customer’s average bet in their betting history should be highlighted as highly unusual
+
+            var customers = new List<Customer>
+            {
+                new Customer
+                {
+                    Id = 1,
+                    Settled = new List<Bet>
+                    {
+                        // Average bet history of 1
+                        new Bet()
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 1,
+                            BetAmount = 2
+                        }
+                    },
+                    Unsettled = new List<Bet>
+                    {
+                        new Bet // Stake MORE than 30x greater than history average.
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 31,
+                            BetAmount = 100
+                        },
+                        new Bet // Stake MORE than 30x greater than history average.
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 32,
+                            BetAmount = 30
+                        },
+                        new Bet // Stake LESS than 30x the history average.
+                        {
+                            CustomerId = 1,
+                            EventId = 1,
+                            ParticipantId = 1,
+                            Stake = 20,
+                            BetAmount = 200
+                        }
+                    }
+                }
+            };
 
             return customers;
         }

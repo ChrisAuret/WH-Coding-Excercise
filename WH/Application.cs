@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WH.Domain;
 using WH.Domain.Interfaces;
 
 namespace WH
@@ -22,8 +23,10 @@ namespace WH
         {
             var customers = _dataImporter.Import(new[] { "Settled.csv", "Unsettled.csv" });
 
-            var customersWithHighWinRate = _riskInspector.CustomersWithUnusualWinRate(customers);
-            var customersWithHighBets = _riskInspector.CustomersWithHighBets(customers);
+            var customersWithHighWinRate = _riskInspector.CustomersWithUnusualWinRate(customers, RiskInspectorThresholds.CustomerWinRate);
+            var customersWithHighBets = _riskInspector.CustomersWithHighBets(customers, RiskInspectorThresholds.HighToWinAmount);
+            var betsWithunusualStakes = _riskInspector.BetsWithUnusualStakes(customers, RiskInspectorThresholds.HighStakes);
+            var betsWithVeryUnusualStakes = _riskInspector.BetsWithVeryUnusualStakes(customers, RiskInspectorThresholds.UnusuallyHighStakes);
         }
     }
 }
