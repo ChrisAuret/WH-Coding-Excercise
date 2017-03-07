@@ -17,7 +17,7 @@ namespace WH.Domain
             foreach (var file in files)
             {
                 var isSettledFile = file.ToLower().StartsWith("s");
-                
+
                 using (var fs = File.OpenRead(file))
                 using (var reader = new StreamReader(fs))
                 {
@@ -43,18 +43,18 @@ namespace WH.Domain
                             Id = customerId
                         };
 
-                        if (isSettledFile)
-                        {
-                            customer.Settled.Add(bet);
-                        }
-                        else
-                        {
-                            customer.Unsettled.Add(bet);
-                        }
-
                         if (!customers.Contains(customer))
                         {
                             customers.Add(customer);
+                        }
+
+                        if (isSettledFile)
+                        {
+                            customers.First(x => x.Equals(customer)).Settled.Add(bet);
+                        }
+                        else
+                        {
+                            customers.First(x => x.Equals(customer)).Unsettled.Add(bet);
                         }
                     }
                 }
