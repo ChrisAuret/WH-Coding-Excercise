@@ -18,7 +18,7 @@ namespace WH
 
         public void Run()
         {
-            var customers = _dataImporter.Import(new[] {"Settled.csv", "Unsettled.csv"});
+            var customers = _dataImporter.Import(new[] { "Settled.csv", "Unsettled.csv" });
         }
     }
 }
