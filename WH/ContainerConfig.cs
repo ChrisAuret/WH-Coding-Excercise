@@ -17,6 +17,7 @@ namespace WH
             var builder = new ContainerBuilder();
             builder.RegisterType<Application>().As<IApplication>();
             builder.RegisterType<DataImporter>().As<IDataImporter>();
+            builder.RegisterType<RiskInspector>().As<IRiskInspector>();
             return builder.Build();
         }
     }

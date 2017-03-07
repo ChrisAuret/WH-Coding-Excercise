@@ -10,15 +10,19 @@ namespace WH
     public class Application : IApplication
     {
         private readonly IDataImporter _dataImporter;
+        private readonly IRiskInspector _riskInspector;
 
-        public Application(IDataImporter dataImporter)
+        public Application(IDataImporter dataImporter, IRiskInspector riskInspector)
         {
             _dataImporter = dataImporter;
+            _riskInspector = riskInspector;
         }
 
         public void Run()
         {
             var customers = _dataImporter.Import(new[] { "Settled.csv", "Unsettled.csv" });
+
+            var customersWithHighWinRate = _riskInspector.CustomersWithUnusualWinRate(customers);
         }
     }
 }
