@@ -1,4 +1,4 @@
-# WH-Coding-Excercise
+# William Hill Coding-Excercise
 
 ## Running the code
 
